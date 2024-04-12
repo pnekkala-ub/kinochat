@@ -64,11 +64,24 @@ class Movie:
             suggestions += (str(id)+" - "+sug+"\n")
         return suggestions, docs
        
+    def wikiCast(self, wiki_url):
+        response = requests.get(wiki_url)
+        if response.ok:
+            soup = bs4.BeautifulSoup(response.content, 'html.parser')
+            cast = soup.find('span',id='Cast')
+            cast_table = cast.find_next('ul')
+            cast_list = []
+            for li in cast_table.find_all('li'):
+                actor_name = li.text.split(' as ')[0].strip()
+                character_name = li.text.split(' as ')[1].strip()
+                cast_list.append(actor_name + " as " + character_name)
+        movie_cast = "\n".join(cast_list)
+        self.synopsis += ("\n"+movie_cast)
 
     def wikiSummary(self, document):
         """Fetch the movie summary from Wikipedia."""
         plot = list(filter(lambda x: "== Plot ==\n" in x, document.page_content.split("\n\n\n")))[-1].strip("== Plot ==\n")
-        self.synopsis += ("\n"+plot)
+        self.synopsis += ("Movie title: "+self.title+"\n\n"+plot)
         print(self.synopsis)
 
     def plotSummary(self):
@@ -120,7 +133,7 @@ class Movie:
         self.db_ids = list(range(len(docs)))
         embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
         self.vectordb = FAISS.from_documents(docs, embeddings, ids=self.db_ids)
-        self.retriever = self.vectordb.as_retriever()
+        self.retriever = self.vectordb.as_retriever(search_kwargs={"k":5})
 
     def retrieveRelevantDocs(self, query:str) -> str:
         # """Retrieve relevent documents from the vector database."""
