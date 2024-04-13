@@ -1,16 +1,14 @@
 import streamlit as st
-from dotenv import load_dotenv
 from components.sidebar import sidebar
 from components.utilities import is_open_ai_key_valid, setup_generate, setup_search, setup_database
 from streamlit.logger import get_logger
-from streamlit_float import *
 import asyncio
 from pprint import pprint
 
 logger = get_logger(__name__)
 
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
-load_dotenv()
+# load_dotenv()
 st.set_page_config(page_title="kinoscript", page_icon="🎬", layout="wide")
 st.header("🎬kinoscript.ai")
 

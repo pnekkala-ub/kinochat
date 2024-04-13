@@ -1,7 +1,6 @@
 import requests
 import bs4
 import re
-from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sumy.summarizers.lex_rank import LexRankSummarizer
