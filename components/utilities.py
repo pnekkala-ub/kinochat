@@ -36,9 +36,7 @@ def setup_generate(movie):
     '''
 
     reformulate_prompt = PromptTemplate.from_template(template=prompt_template)
-    # qgen_promp
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key="answer")
-    # question_generation_chain = LLMChain(llm=movie.llm, prompt=qgen_prompt)
     chain = ConversationalRetrievalChain.from_llm(
         llm=movie.llm.with_config(tags=["final_answer"]), 
         retriever=movie.retriever, 

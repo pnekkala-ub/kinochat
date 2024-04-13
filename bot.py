@@ -41,7 +41,7 @@ class Movie:
         for x in docs:
             movies.append(x.metadata["source"].split("/")[-1])
         for id, sug in zip(ids, movies):    
-            suggestions += (str(id)+" - "+sug+"\n")
+            suggestions += (str(id)+" - "+sug+"  \n")
         return suggestions, docs
        
     def wikiCast(self, wiki_url):
