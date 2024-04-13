@@ -22,7 +22,7 @@ def sidebar():
             value=os.environ.get("OPENAI_API_KEY", None)
             or st.session_state.get("OPENAI_API_KEY", ""),
         )
-
+        os.environ["OPENAI_API_KEY"] = api_key_input
         st.slider("temperature", key="temperature", min_value=0., max_value=1.0, value=0., step=0.1, format="%f", help="larger temperature generates more creative responses")
         with st.expander("FAQ", expanded=False):
             st.markdown(
